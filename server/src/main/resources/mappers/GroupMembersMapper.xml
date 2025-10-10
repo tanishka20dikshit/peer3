@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.adelaide.mapper.GroupMembersMapper">
+
+  <resultMap id="BaseResultMap" type="edu.adelaide.entity.GroupMembers">
+    <id     column="group_id"     jdbcType="CHAR"      property="groupId"/>
+    <id     column="user_id"      jdbcType="VARCHAR"   property="userId"/>
+    <result column="role"         jdbcType="CHAR"      property="role"/>
+    <result column="wrapped_key"  jdbcType="VARCHAR"   property="wrappedKey"/> <!-- Changed property here -->
+    <result column="status"       jdbcType="CHAR"      property="status"/>
+    <result column="mute_until"   jdbcType="TIMESTAMP" property="muteUntil"/>
+    <result column="joined_at"    jdbcType="TIMESTAMP" property="joinedAt"/>
+    <result column="updated_at"   jdbcType="TIMESTAMP" property="updatedAt"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    group_id, user_id, role, wrapped_key, status, mute_until, joined_at, updated_at
+  </sql>
+
+  <insert id="insert" parameterType="edu.adelaide.entity.GroupMembers">
+    insert into group_members
+    (group_id, user_id, role, wrapped_key, status, mute_until, joined_at, updated_at)
+    values
+    (#{groupId,jdbcType=CHAR},
+    #{userId,jdbcType=VARCHAR},
+    #{role,jdbcType=CHAR},
+    #{wrappedKey,jdbcType=VARCHAR},            <!-- Changed here -->
+    #{status,jdbcType=CHAR},
+    #{muteUntil,jdbcType=TIMESTAMP},
+    #{joinedAt,jdbcType=TIMESTAMP},
+    #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="edu.adelaide.entity.GroupMembers">
+    insert into group_members
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="groupId   != null"> group_id,     </if>
+      <if test="userId    != null"> user_id,      </if>
+      <if test="role      != null"> role,         </if>
+      <if test="wrappedKey   != null"> wrapped_key,  </if> <!-- Changed here -->
+      <if test="status    != null"> status,       </if>
+      <if test="muteUntil != null"> mute_until,   </if>
+      <if test="joinedAt  != null"> joined_at,    </if>
+      <if test="updatedAt != null"> updated_at,   </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="groupId   != null"> #{groupId,jdbcType=CHAR},        </if>
+      <if test="userId    != null"> #{userId,jdbcType=VARCHAR},      </if>
+      <if test="role      != null"> #{role,jdbcType=CHAR},           </if>
+      <if test="wrappedKey   != null"> #{wrappedKey,jdbcType=VARCHAR},     </if> <!-- Changed here -->
+      <if test="status    != null"> #{status,jdbcType=CHAR},         </if>
+      <if test="muteUntil != null"> #{muteUntil,jdbcType=TIMESTAMP}, </if>
+      <if test="joinedAt  != null"> #{joinedAt,jdbcType=TIMESTAMP},  </if>
+      <if test="updatedAt != null"> #{updatedAt,jdbcType=TIMESTAMP}, </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="edu.adelaide.entity.GroupMembers">
+    update group_members
+    <set>
+      <if test="role     != null"> role        = #{role,jdbcType=CHAR},        </if>
+      <if test="wrappedKey  != null"> wrapped_key = #{wrappedKey,jdbcType=VARCHAR},  </if> <!-- Changed here -->
+      <if test="status   != null"> status      = #{status,jdbcType=CHAR},      </if>
+      <if test="muteUntil!= null"> mute_until  = #{muteUntil,jdbcType=TIMESTAMP}, </if>
+      <if test="joinedAt != null"> joined_at   = #{joinedAt,jdbcType=TIMESTAMP},  </if>
+      <if test="updatedAt!= null"> updated_at  = #{updatedAt,jdbcType=TIMESTAMP}, </if>
+    </set>
+    where group_id = #{groupId,jdbcType=CHAR}
+    and user_id  = #{userId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="edu.adelaide.entity.GroupMembers">
+    update group_members
+    set role        = #{role,jdbcType=CHAR},
+    wrapped_key = #{wrappedKey,jdbcType=VARCHAR},   <!-- Changed here -->
+    status      = #{status,jdbcType=CHAR},
+    mute_until  = #{muteUntil,jdbcType=TIMESTAMP},
+    joined_at   = #{joinedAt,jdbcType=TIMESTAMP},
+    updated_at  = #{updatedAt,jdbcType=TIMESTAMP}
+    where group_id = #{groupId,jdbcType=CHAR}
+    and user_id  = #{userId,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="upsertActive">
+    INSERT INTO group_members
+    (group_id, user_id, role, wrapped_key, status, joined_at, updated_at)
+    VALUES
+    (#{groupId}, #{userId}, COALESCE(#{role}, 'member'), #{wrappedKey}, 'active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) <!-- Changed here -->
+    ON DUPLICATE KEY UPDATE
+    status = 'active',
+    role = COALESCE(VALUES(role), role),
+    updated_at = CURRENT_TIMESTAMP
+  </insert>
+
+  <update id="markLeft">
+    UPDATE group_members
+    SET status = 'left',
+    updated_at = CURRENT_TIMESTAMP
+    WHERE group_id = #{groupId}
+    AND user_id  = #{userId}
+  </update>
+
+  <!-- Query all rows with status = 'active' -->
+  <select id="queryAllActive" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from group_members
+    where status = 'active'
+  </select>
+</mapper>

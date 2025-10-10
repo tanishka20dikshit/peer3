@@ -1,0 +1,24 @@
+{
+  "version" : 1,
+  "updated" : 1759731172051,
+  "servers" : {
+    "server-test-001" : {
+      "host" : "100.91.86.32",
+      "port" : 8080,
+      "pubkey" : "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAr1vK81b3ea8nNjuEDIOLvcvFSXva2Bkg0zudMclVssZH0RyfVbJ0-gMxU2QJigXl1_zYTupk8yoYe8iTWJCistwppX1gFma5sn4TKlscBGH9RSQq0wWHBgeRB_OYzKV-ELnzyf8auxEVlD_GaYEdQc-iYClW2TX2C2EPhbqYXbcRj_gdlZ5Rm02P5dzgWaS2qEhLCE1SrbDEnlFTxld1TbCCnnkRdaZpLm5Oq_FSkDblX7x3yaL_RqMt94EmLJh-89C84M2lroaBHQICa0e3Buwm4qnyuHy7jt2k0N2QaXut9qcSzhB-JKb2LY4tg7vjsJuQEB16inWpBecFihluijPtzSre4QsdF0PD_pZRyMVklfvkJ7RxAyUSWSJ2LsNtJiZMR0NM6tPq3KpkxQR1TcrUj2xj_IhalJfFXcH4xk9I2p7rQ7CD0b-O97p8cQdc-XcWsodcj8ymdVM-u21c0UJWGgG9hm8uMQ7zQ_1LaLqeoTQivuHzQDwHXtWV_SchvVEZqFzGY3i7yGPx5QJ-fTOTXazmyRhODbNbWOW-_pCaA43fC4g7tIyQsRldsweVQoyB8-k_tXO0KSA-dnT0VmhcfYJoO0zD3W8C8G7CwB4-7GqxMy5Ufveh7rhMmDFDCoUSqNO8HbLJtWvzadYRl978Pr_9nRE6h1sxaqGb6OMCAwEAAQ",
+      "fingerprint" : "sha256:b00d573f592a8e073dc279d8b3f866eb979bfb7af73825a89d40a65b1c07f654",
+      "first_seen" : 1759038464971,
+      "last_seen" : 1759731172051,
+      "status" : "alive"
+    },
+    "server-test-002" : {
+      "host" : "172.26.161.110",
+      "port" : 8081,
+      "pubkey" : "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAr1vK81b3ea8nNjuEDIOLvcvFSXva2Bkg0zudMclVssZH0RyfVbJ0-gMxU2QJigXl1_zYTupk8yoYe8iTWJCistwppX1gFma5sn4TKlscBGH9RSQq0wWHBgeRB_OYzKV-ELnzyf8auxEVlD_GaYEdQc-iYClW2TX2C2EPhbqYXbcRj_gdlZ5Rm02P5dzgWaS2qEhLCE1SrbDEnlFTxld1TbCCnnkRdaZpLm5Oq_FSkDblX7x3yaL_RqMt94EmLJh-89C84M2lroaBHQICa0e3Buwm4qnyuHy7jt2k0N2QaXut9qcSzhB-JKb2LY4tg7vjsJuQEB16inWpBecFihluijPtzSre4QsdF0PD_pZRyMVklfvkJ7RxAyUSWSJ2LsNtJiZMR0NM6tPq3KpkxQR1TcrUj2xj_IhalJfFXcH4xk9I2p7rQ7CD0b-O97p8cQdc-XcWsodcj8ymdVM-u21c0UJWGgG9hm8uMQ7zQ_1LaLqeoTQivuHzQDwHXtWV_SchvVEZqFzGY3i7yGPx5QJ-fTOTXazmyRhODbNbWOW-_pCaA43fC4g7tIyQsRldsweVQoyB8-k_tXO0KSA-dnT0VmhcfYJoO0zD3W8C8G7CwB4-7GqxMy5Ufveh7rhMmDFDCoUSqNO8HbLJtWvzadYRl978Pr_9nRE6h1sxaqGb6OMCAwEAAQ",
+      "fingerprint" : "sha256:b00d573f592a8e073dc279d8b3f866eb979bfb7af73825a89d40a65b1c07f654",
+      "first_seen" : 1759125758735,
+      "last_seen" : 1759647302938,
+      "status" : "alive"
+    }
+  }
+}

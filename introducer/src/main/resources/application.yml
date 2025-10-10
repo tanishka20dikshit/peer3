@@ -1,0 +1,23 @@
+server:
+  port: 8100
+spring:
+  main:
+    banner-mode: "console"
+
+introducer:
+  registry: file:./data/server-registry.json  # file-based registry path (relative to cwd)
+  private-key-location: classpath:config/keys/introducer_private.pem
+
+logging:
+  level:
+    root: info
+    edu.adelaide: debug
+  file:
+    name: ./logs/introducer.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 7
+      total-size-cap: 1GB
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg %X{traceId}%n"

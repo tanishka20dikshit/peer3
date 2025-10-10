@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>SOCP Introducer WS Test</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+        body { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin: 16px; }
+        h1 { font-size: 18px; margin: 0 0 8px; }
+        #status { margin: 6px 0 12px; padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; background:#f7f7f7;}
+        #log { white-space: pre-wrap; border:1px solid #ddd; padding:10px; border-radius:6px; height: 50vh; overflow:auto; background:#fff;}
+        .row { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
+        button { padding:6px 10px; border:1px solid #ccc; border-radius:6px; background:#fafafa; cursor:pointer;}
+        button:hover { background:#f0f0f0; }
+        .tag { display:inline-block; padding:0 6px; border-radius:4px; background:#eef; border:1px solid #cde; margin-right:6px;}
+    </style>
+</head>
+<body>
+<h1>SOCP Introducer WS Test</h1>
+
+<div id="status">
+    <span class="tag">WS</span>
+    <span id="wsState">idle</span>
+    &nbsp;|&nbsp;
+    <span class="tag">Auto-Reload</span>
+    <span id="reloadLeft">--</span>
+</div>
+
+<div class="row">
+    <button id="sendBtn" title="Send SERVER_HELLO_JOIN">Send JOIN</button>
+    <button id="clearBtn">Clear log</button>
+</div>
+
+<pre id="log">(waiting for connection...)</pre>
+
+<script>
+    // ====== Config ======
+    const WS_URL = "ws://localhost:8100/ws";   // change if needed
+    const AUTO_RELOAD_MS = 15000;              // 15s auto reload
+
+    // ====== Helpers ======
+    const qs  = s => document.querySelector(s);
+    const logEl = qs('#log');
+    const wsStateEl = qs('#wsState');
+    const reloadLeftEl = qs('#reloadLeft');
+
+    const ts = () => new Date().toISOString();
+    function append(label, data) {
+        const line = typeof data === 'string' ? data
+            : (data instanceof Error ? (data.stack || data.message)
+                : JSON.stringify(data, null, 2));
+        logEl.textContent += `[${ts()}] ${label}\n${line}\n\n`;
+        logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    // ====== WebSocket ======
+    let ws;
+    function connect() {
+        append('INFO', `Connecting to ${WS_URL} ...`);
+        wsStateEl.textContent = 'connecting';
+        ws = new WebSocket(WS_URL);
+
+        ws.onopen = () => {
+            wsStateEl.textContent = 'open';
+            append('OPEN', 'WebSocket opened.');
+            sendJoin(); // auto send once on open
+        };
+
+        ws.onmessage = (e) => {
+            // Try to pretty-print JSON, fallback to raw
+            let payload = e.data;
+            try { payload = JSON.parse(e.data); } catch(_) {}
+            append('<< MESSAGE', payload);
+        };
+
+        ws.onerror = (e) => {
+            wsStateEl.textContent = 'error';
+            append('ERROR', e instanceof Event ? 'WebSocket error event.' : e);
+        };
+
+        ws.onclose = (e) => {
+            wsStateEl.textContent = `closed(code=${e.code})`;
+            append('CLOSE', `code=${e.code}, reason=${e.reason || ''}`);
+        };
+    }
+
+    function sendJoin() {
+        if (!ws || ws.readyState !== WebSocket.OPEN) {
+            append('WARN', 'Cannot send: WebSocket not open.');
+            return;
+        }
+        const join = {
+            type: "SERVER_HELLO_JOIN",
+            from: "server_id",              // your server ID or leave as placeholder
+            to:   "127.0.0.1:8100",         // target introducer (this instance)
+            ts:   Date.now(),
+            payload: {
+                host: "127.0.0.1",
+                port: 9999,
+                pubkey: "123455"
+            },
+            sig: "..."                      // optional at bootstrap; fill when signing
+        };
+        append('>> SEND JOIN', join);
+        ws.send(JSON.stringify(join));
+    }
+
+    // ====== UI Wiring ======
+    qs('#sendBtn').onclick  = sendJoin;
+    qs('#clearBtn').onclick = () => { logEl.textContent = ''; };
+
+    // ====== Auto-reload countdown ======
+    let left = Math.floor(AUTO_RELOAD_MS / 1000);
+    reloadLeftEl.textContent = `${left}s`;
+    const tick = setInterval(() => {
+        left -= 1;
+        reloadLeftEl.textContent = `${left}s`;
+        if (left <= 0) {
+            clearInterval(tick);
+            location.reload();
+        }
+    }, 1000);
+
+    // Kick things off
+    connect();
+</script>
+</body>
+</html>

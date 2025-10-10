@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.adelaide.mapper.GroupsMapper">
+  <resultMap id="BaseResultMap" type="edu.adelaide.entity.Groups">
+    <id column="group_id" jdbcType="CHAR" property="groupId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="kind" jdbcType="CHAR" property="kind" />
+    <result column="created_by" jdbcType="VARCHAR" property="createdBy" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="edu.adelaide.entity.Groups">
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    group_id, name, kind, created_by, is_deleted, created_at, updated_at
+  </sql>
+  <sql id="Blob_Column_List">
+    description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from groups
+    where group_id = #{groupId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from groups
+    where group_id = #{groupId,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" keyColumn="group_id" keyProperty="groupId" parameterType="edu.adelaide.entity.Groups" useGeneratedKeys="true">
+    insert into groups (name, kind, created_by, 
+      is_deleted, created_at, updated_at, 
+      description)
+    values (#{name,jdbcType=VARCHAR}, #{kind,jdbcType=CHAR}, #{createdBy,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=BIT}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
+      #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="group_id" keyProperty="groupId" parameterType="edu.adelaide.entity.Groups" useGeneratedKeys="true">
+    insert into groups
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="kind != null">
+        kind,
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null">
+        #{kind,jdbcType=CHAR},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="edu.adelaide.entity.Groups">
+    update groups
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="kind != null">
+        kind = #{kind,jdbcType=CHAR},
+      </if>
+      <if test="createdBy != null">
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where group_id = #{groupId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="edu.adelaide.entity.Groups">
+    update groups
+    set name = #{name,jdbcType=VARCHAR},
+      kind = #{kind,jdbcType=CHAR},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where group_id = #{groupId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="edu.adelaide.entity.Groups">
+    update groups
+    set name = #{name,jdbcType=VARCHAR},
+      kind = #{kind,jdbcType=CHAR},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where group_id = #{groupId,jdbcType=CHAR}
+  </update>
+</mapper>

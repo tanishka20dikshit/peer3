@@ -1,0 +1,33 @@
+# IDE
+.idea/
+*.iml
+
+# Build outputs
+/target/
+server/target/
+client/target/
+
+# OS
+.DS_Store
+.idea/
+*.iml
+target/
+.DS_Store
+
+# Logs
+logs/
+*.log
+*.gz
+
+# Local downloads (file transfers)
+downloads/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.env
+.venv/
+venv/

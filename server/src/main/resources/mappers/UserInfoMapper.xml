@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="edu.adelaide.mapper.UserInfoMapper">
+
+  <!-- ResultMap for UserInfo entity -->
+  <resultMap id="BaseResultMap" type="edu.adelaide.entity.UserInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+    <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <!-- Column list for SELECT statements -->
+  <sql id="Base_Column_List">
+    id, user_id, username, email, phone_number, password, salt, role, status, avatar_url,
+    last_login_time, create_time, update_time
+  </sql>
+
+  <!-- CRUD statements -->
+  <select id="selectByPrimaryKey" parameterType="long" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM t_user_info
+    WHERE id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="edu.adelaide.entity.UserInfo" useGeneratedKeys="true">
+    INSERT INTO t_user_info (
+      user_id, username, email, phone_number, password,
+      salt, role, status, avatar_url, last_login_time, create_time, update_time
+    ) VALUES (
+      #{userId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+      #{phoneNumber,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},
+      #{role,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{avatarUrl,jdbcType=VARCHAR},
+      #{lastLoginTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+    )
+  </insert>
+
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="edu.adelaide.entity.UserInfo" useGeneratedKeys="true">
+    INSERT INTO t_user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">user_id,</if>
+      <if test="username != null">username,</if>
+      <if test="email != null">email,</if>
+      <if test="phoneNumber != null">phone_number,</if>
+      <if test="password != null">password,</if>
+      <if test="salt != null">salt,</if>
+      <if test="role != null">role,</if>
+      <if test="status != null">status,</if>
+      <if test="avatarUrl != null">avatar_url,</if>
+      <if test="lastLoginTime != null">last_login_time,</if>
+      <if test="createTime != null">create_time,</if>
+      <if test="updateTime != null">update_time,</if>
+    </trim>
+    <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">#{userId,jdbcType=VARCHAR},</if>
+      <if test="username != null">#{username,jdbcType=VARCHAR},</if>
+      <if test="email != null">#{email,jdbcType=VARCHAR},</if>
+      <if test="phoneNumber != null">#{phoneNumber,jdbcType=VARCHAR},</if>
+      <if test="password != null">#{password,jdbcType=VARCHAR},</if>
+      <if test="salt != null">#{salt,jdbcType=VARCHAR},</if>
+      <if test="role != null">#{role,jdbcType=VARCHAR},</if>
+      <if test="status != null">#{status,jdbcType=TINYINT},</if>
+      <if test="avatarUrl != null">#{avatarUrl,jdbcType=VARCHAR},</if>
+      <if test="lastLoginTime != null">#{lastLoginTime,jdbcType=TIMESTAMP},</if>
+      <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="edu.adelaide.entity.UserInfo">
+    UPDATE t_user_info
+    <set>
+      <if test="userId != null">user_id = #{userId,jdbcType=VARCHAR},</if>
+      <if test="username != null">username = #{username,jdbcType=VARCHAR},</if>
+      <if test="email != null">email = #{email,jdbcType=VARCHAR},</if>
+      <if test="phoneNumber != null">phone_number = #{phoneNumber,jdbcType=VARCHAR},</if>
+      <if test="password != null">password = #{password,jdbcType=VARCHAR},</if>
+      <if test="salt != null">salt = #{salt,jdbcType=VARCHAR},</if>
+      <if test="role != null">role = #{role,jdbcType=VARCHAR},</if>
+      <if test="status != null">status = #{status,jdbcType=TINYINT},</if>
+      <if test="avatarUrl != null">avatar_url = #{avatarUrl,jdbcType=VARCHAR},</if>
+      <if test="lastLoginTime != null">last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},</if>
+      <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
+      <if test="updateTime != null">update_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+    </set>
+    WHERE id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="edu.adelaide.entity.UserInfo">
+    UPDATE t_user_info
+    SET user_id = #{userId,jdbcType=VARCHAR},
+        username = #{username,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+        password = #{password,jdbcType=VARCHAR},
+        salt = #{salt,jdbcType=VARCHAR},
+        role = #{role,jdbcType=VARCHAR},
+        status = #{status,jdbcType=TINYINT},
+        avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+    WHERE id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <delete id="deleteByPrimaryKey" parameterType="long">
+    DELETE FROM t_user_info
+    WHERE id = #{id,jdbcType=BIGINT}
+  </delete>
+
+</mapper>

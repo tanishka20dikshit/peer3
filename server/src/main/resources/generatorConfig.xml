@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "https://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="MySQLTables" targetRuntime="MyBatis3">
+        <!-- Optional: enable backtick delimiters for reserved words/table/column names -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <commentGenerator>
+            <!-- Remove all comments and dates in generated code -->
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- JDBC connection (MySQL 8) -->
+        <jdbcConnection
+                driverClass="com.mysql.cj.jdbc.Driver"
+                connectionURL="jdbc:mysql://localhost:3306/secure_programming?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;serverTimezone=Australia/Adelaide"
+                userId="secprog_migrate"
+                password="1qaz!QAZ"/>
+
+        <!-- Type resolver: keep Long/Integer instead of BigDecimal for numerics -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- Java model (entity) output -->
+        <javaModelGenerator targetPackage="edu.adelaide.entity"
+                            targetProject="server/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- Mapper XML output -->
+        <sqlMapGenerator targetPackage="mappers"
+                         targetProject="server/src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+            <!-- Critical: do NOT merge XML; always overwrite to avoid duplicates -->
+            <property name="isMergeable" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- Java Mapper interface output -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="edu.adelaide.mapper"
+                             targetProject="server/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- Table mapping -->
+        <table tableName="group_members"
+               domainObjectName="GroupMembers"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <!-- Auto-increment primary key with JDBC return -->
+            <generatedKey column="group_id" sqlStatement="JDBC" identity="true"/>
+        </table>
+
+    </context>
+</generatorConfiguration>

@@ -1,0 +1,52 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/secure_programming?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Australia/Adelaide
+    username: secprog_migrate
+    password: 1qaz!QAZ
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:/mappers/*.xml
+  type-aliases-package: edu.adelaide.entity
+
+server:
+  port: 8080
+  private-key-location: classpath:config/keys/server_private.pem
+
+logging:
+  level:
+    root: info
+    edu.adelaide: debug
+  file:
+    name: ./logs/server.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 7
+      total-size-cap: 1GB
+
+introducer:
+  client:
+    server-id: server-test-001
+    timeout-ms: 50000
+
+  # Static Bootstrap List (SOCP v1.3)
+  bootstrap-servers:
+#    # introducer #2
+#    - host: "198.51.100.3"
+#      port: 9001
+#      pubkey: "BASE64URL(RSA-4096-PUB-SPKI)"
+    # introducer #1
+    - host: "127.0.0.1"
+      port: 8100
+      pubkey: "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAyA6WH3GYCH5zGK6YPJf0dHuywAbbINncrCeX8HiAXlI17RF5cgDjbt55dT7yeqV761hnEXUbEgSngfIt6GCdAJxOTvIAUezNUbqXsmn9nTd3dGyVd3VQaPh6DCoRRuqX2JWvqSochc4QORtfXMTKbJ_a9pKKvOwFrGXXmuncpsjO7uZlnWAC8azoUwPB506khK_gqX2RrwWvWODT52qDom460C9VRNDFAmRai1y3vAZezUhFc6A7t-HF4ytmCe32S9o9KUETJ-Ye8Fo1q5KfwmxHYtdlP7HWMDinDOAZhj1dZLkFld9N5f1bqdZxE4u26-7H24Ia4Y08Kdg1pO15_dCOI6OV7WhPQzYV8JwJrsYbRVkmLsFxW1-P8JWsfjoNIfUUX4joNfzCdTOMiQw5IJMIBTgBkyD_FIEYKXI4Hb4LbG4Joa2_q7PbQoaxxK1qhPVQOajGYtpUSkS7T1P7R5wf0TNI4_EqB5GcZhW7g6Opnp36lZXuQIQoKUjQx1kb-Ev-OqV7KPtVsTXEHZuOnSiPTnN799whHgQcx1J7R6KHJ56D2nQZktTsUcM_8DJZCpHWbQVXW93r936mdSgV1lkfdxvQYOWa8X57smU77_303vL6UCGoHZ161d6p9SBkB9UrwmP7M0XVcVmlTLe2jXQpMtj5S3ye8eenNlmm0iUCAwEAAQ"
+
+#    # introducer #3
+#    - host: "introducer.example.com"
+#      port: 443
+#      pubkey: "BASE64URL(RSA-4096-PUB-SPKI)"
+
+socp:
+  heartbeat:
+    initial-delay-ms: 5000
+    interval-ms: 15000
