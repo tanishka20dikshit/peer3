@@ -17,7 +17,7 @@
         <spring-boot.version>3.3.3</spring-boot.version>
 
         <!-- Libraries not managed by Boot BOM -->
-        <mybatis-spring-boot.version>3.0.4</mybatis-spring-boot.version>
+        <mybatis-spring-boot.version>4.0.0</mybatis-spring-boot.version>
         <mysql.version>8.4.0</mysql.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
